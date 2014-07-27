@@ -31,35 +31,30 @@ makeCacheMatrix <- function(x = numeric()) {
         }
 
         # Cache the argument 
-        cacheInverse <- function(solve) {
+        cacheMean <- function(solve) {
                 cache <<- solve
         }
 
         # Get cached value
-        getInverse <- function() {
+        geatMean <- function() {
                 cache
         }
         
         # Return a list
-        list(setMatrix = setMatrix, getMatrix = getMatrix, cacheInverse = cacheInverse, getInverse = getInverse)
+        list(setMatrix = setMatrix, getMatrix = getMatrix, cacheMean = cacheMean, getMean = getMean)
 }
 
 
 # Calculates the inverse of a  matrix created with makeCacheMatrix
 
-cacheSolve <- function(y, ...) {
-        # get the cached value
-        inverse <- y$getInverse()
-        # if value exists return it
-        if(!is.null(inverse)) {
-                message("Getting the cached data...")
-                return(inverse)
+cachemean <- function(x, ...) {
+        m <- x$getmean()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
         }
-        # otherwise get  matrix, calculate the inverse and store it 
-        data <- y$getMatrix()
-        inverse <- solve(data)
-        y$cacheInverse(inverse)
-        
-        # return the inverse
-        inverse
+        data <- x$get()
+        m <- mean(data, ...)
+        x$setmean(m)
+        m
 }
